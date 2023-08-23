@@ -1,3 +1,12 @@
+import Sequelize, { DataTypes as _DataTypes } from 'sequelize';
+const {DataTypes , Op} = Sequelize;
+import { hashSync, genSaltSync } from 'bcrypt';
+import { REAL } from 'sequelize';
+const sequelize = new Sequelize('stage','root','',{
+    dialect:'mysql'
+});
+
+
 const Salle= sequelize.define('salle',{
     id:{
         type: Sequelize.DataTypes.INTEGER,
@@ -49,3 +58,5 @@ const Salle= sequelize.define('salle',{
     freezeTableName :true,
     timestamps: false
 });
+
+export default Salle;
