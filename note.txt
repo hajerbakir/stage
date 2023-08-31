@@ -1,0 +1,7 @@
+disabled button (reserver/modifier)
+dimension (diff mobiles/desktop)
+
+reservation affichées juste du user specifique //done
+update reservation date_heure //done
+update salle //done
+delete reservation(new date)//doing

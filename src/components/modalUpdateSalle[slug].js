@@ -6,51 +6,41 @@ import { useDisclosure } from "@mantine/hooks";
 import { useMutation, gql } from "@apollo/client";
 import { useForm } from "@mantine/form";
 
-const CREATE_SALLE = gql`
-  mutation CreateSalle($data: CreateSalleInput) {
-    createSalle(data: $data) {
-      etage
-      num_salle
-      nbr_chaises
-      acces_handicape
-      micro
-      video_projecteur
-      sound_proof
-      climatiseur
-      image
+const UPDATE_SALLE = gql`
+mutation UpdateSalle($data: UpdateSalleInput) {
+    updateSalle(data: $data) {
+      id
     }
   }
 `;
 
-function ModalSalle() {
+function ModalUpdateSalle({salle}) {
   const [visible, { toggle }] = useDisclosure(false);
   const [opened, { open, close }] = useDisclosure(false);
 
   const form = useForm({
     initialValues: {
-      etage: 1,
-      num_salle: 1,
-      nbr_chaises :1,
-      acces_handicape : false,
-      micro : false,
-      video_projecteur : false,
-      sound_proof :false,
-      climatiseur: false,
-      image:""
+        id:salle.id,
+      nbr_chaises :salle.nbr_chaises,
+      acces_handicape : salle.acces_handicape,
+      micro : salle.micro,
+      video_projecteur : salle.video_projecteur,
+      sound_proof :salle.sound_proof,
+      climatiseur: salle.climatiseur,
+      image:salle.image
     },
 
     
   });
 
-  const [Create_Salle, { data, loading, error }] = useMutation(CREATE_SALLE);
+  const [Update_Salle, { data, loading, error }] = useMutation(UPDATE_SALLE);
   if (error) return <p>Error: {error.message}</p>;
 
 function handleFormSubmit(values){
     console.log(values)
-Create_Salle({
+Update_Salle({
     variables: { data:{
-      etage: values.etage,
-      num_salle: values.num_salle,
+        id:salle.id,
       nbr_chaises: values.nbr_chaises,
       acces_handicape: values.acces_handicape,
       micro: values.micro,
@@ -64,18 +54,9 @@ Create_Salle({
 
   return (
     <div>
-      <Modal opened={opened} onClose={close} title="Ajouter une salle">
+      <Modal opened={opened} onClose={close} title="Modifier une salle">
         <form onSubmit={form.onSubmit((values) => handleFormSubmit(values))}>
-          <NumberInput
-            withAsterisk
-            label="Etage"
-            {...form.getInputProps("etage")}
-          />
-          <NumberInput
-            withAsterisk
-            label="Num de salle"
-            {...form.getInputProps("num_salle")}
-          />
+          
           <NumberInput
             withAsterisk
             label="Numero de chaises"
@@ -126,10 +107,10 @@ Create_Salle({
 
       <Group position="center">
         <Button type="submit" onClick={open}>
-          Ajouter
+         Modifier
         </Button>
       </Group>
     </div>
   );
 }
-export default ModalSalle;
+export default ModalUpdateSalle;

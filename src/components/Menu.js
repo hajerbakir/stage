@@ -22,13 +22,13 @@ function MenuApp() {
 
   <Divider my="sm" />
 <Box component="a"  >
-  <Link href="/salle">Salles</Link>
+  <Link href="/">Salles</Link>
 </Box>
 
 
   <Divider my="sm" />
   <Box component="a" >
-  <Link  href="/reservation" >reservation</Link>
+  <Link  href="/reservation" >Reservations</Link>
   </Box>
   </Drawer>
 

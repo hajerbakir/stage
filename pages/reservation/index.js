@@ -1,14 +1,14 @@
 import React from 'react'
 import Head from "next/head";
 import MenuApp from "../../src/components/Menu";
-import GridReservations from "../../src/components/gridReservations";
 import { Space,Grid,Card,Group ,Badge,Button,Text,Image, Loader } from '@mantine/core';
 import { useQuery, gql } from "@apollo/client";
+import { useRouter } from "next/router";  
 
 const GET_RESERVATIONS =gql`
 query Query {
   getReservations {
-
+    id
     date_heure
     etat
     user {
@@ -35,6 +35,7 @@ query Query {
 }`;
 
 export default function Reservation() {
+  const router = useRouter(); 
   const { loading, error, data } = useQuery(GET_RESERVATIONS);
   if (error) return <p>Error: {error.message}</p>;
   const reservations = data?.getReservations;
@@ -59,7 +60,7 @@ export default function Reservation() {
       ) : (
         <ul><Grid   gutterXl={25}>
         {reservations?.map((reservation) =>(
-
+          reservation.user.id === "25"   ? (
         <Grid.Col  md={6} lg={3} >
               <Card shadow="sm" padding="lg" radius="md" withBorder>
               
@@ -87,19 +88,20 @@ export default function Reservation() {
                          height={70}
                          width ={70}
                          
-                         caption={reservation.user.username}
+                         caption={reservation.user.username }
                        />
                      </Card.Section>
        
                
        
         
-              <Button variant="light" color="blue" fullWidth mt="md" radius="md">
+              <Button variant="light" color="blue" fullWidth mt="md" radius="md" onClick={()=>router.push( `/reservation/${reservation.id}`)}>
                 plus..
               </Button>
             </Card>
        
             </Grid.Col>
+          ): null
         ))}
        
 </Grid>    </ul> 
